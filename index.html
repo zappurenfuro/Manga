@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Zappu's Manga Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Link to CSS file -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Manga Tracker</h1>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button id="addMangaBtn">Add Manga</button>
+            <button id="downloadBtn">Download List</button>
+            <input type="file" id="uploadInput" accept="application/json" style="display: none;">
+            <button id="uploadBtn">Upload List</button>
+        </div>
+
+        <!-- Sort Buttons -->
+        <div class="sort-buttons">
+            <button id="sortAddedBtn">Sort by Added</button>
+            <button id="sortUpdatedBtn">Sort by Updated</button>
+            <button id="sortPriorityBtn">Sort by Priority</button>
+        </div>
+
+        <!-- Manga List -->
+        <ul id="mangaList"></ul>
+    </div>
+
+    <!-- Add/Edit Manga Modal -->
+    <div id="mangaModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeModalBtn">&times;</span>
+            <h2 id="modalTitle">Add Manga</h2>
+            <form id="mangaForm">
+                <label for="titleInput">Title:</label>
+                <input type="text" id="titleInput" required>
+
+                <label for="chaptersInput">Chapters:</label>
+                <input type="number" id="chaptersInput" min="1" value="1">
+
+                <label for="priorityInput">Priority (1-5):</label>
+                <input type="number" id="priorityInput" min="1" max="5" value="1">
+
+                <button type="submit" id="saveMangaBtn">Save</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Link to JavaScript file -->
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+/* Global Styles /\/\*/
+body {
+    font-family: Arial, sans-serif;
+    background-color: #212121;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container */
+.container {
+    width: 90%;
+    max-width: 800px;
+    margin: auto;
+    overflow: hidden;
+    padding: 20px;
+}
+
+/* Header */
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color:#fff;
+}
+
+/* Button Container Styling */
+.action-buttons, .sort-buttons {
+    display: flex;
+    justify-content: space-around; /* Align buttons with equal space */
+    margin-bottom: 20px;
+    flex-wrap: wrap; /* Allow buttons to wrap to the next line if the screen is small */
+}
+
+/* General Button Styling */
+button {
+    padding: 12px 20px; /* Adjust the padding for consistent size */
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    background-color: #676767;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Specific Buttons (Optional for fine-tuning) */
+#addMangaBtn, #downloadBtn, #uploadBtn {
+    width: 30%; /* Make buttons the same width */
+}
+
+#sortAddedBtn, #sortUpdatedBtn, #sortPriorityBtn {
+    width: 30%;
+}
+
+/* Manga List */
+#mangaList {
+    list-style-type: none;
+    padding: 0;
+}
+
+.manga-item {
+    background-color: #171717;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-left: 5px solid #ccc;
+    position: relative;
+    border-radius: 20px;
+    color:#fff;
+}
+
+.manga-item .item-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.manga-item .item-content h3 {
+    margin: 0;
+}
+
+.manga-item .item-content p {
+    margin: 5px 0 0 0;
+}
+
+.manga-item .item-actions {
+    position: absolute;
+    right: 10px;
+    top: 15px;
+}
+
+.manga-item .item-actions button {
+    margin-left: 5px;
+}
+
+/* Priority Colors */
+.priority-1 {
+    border-left-color: gray;
+}
+
+.priority-2 {
+    border-left-color: blue;
+}
+
+.priority-3 {
+    border-left-color: green;
+}
+
+.priority-4 {
+    border-left-color: orange;
+}
+
+.priority-5 {
+    border-left-color: red;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    width: 80%;
+    max-width: 400px;
+    position: relative;
+    border-radius: 25px;
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+}
+
+#modalTitle {
+    text-align: center;
+}
+
+#mangaForm {
+    display: flex;
+    flex-direction: column;
+}
+
+#mangaForm label {
+    margin-top: 10px;
+}
+
+#mangaForm input {
+    padding: 8px;
+    margin-top: 5px;
+}
+
+#saveMangaBtn {
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.edit-btn {
+    margin-right: 7px;
+}
+
+.edit-btn:hover {
+    background-color: #218838;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}
