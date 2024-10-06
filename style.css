@@ -1,4 +1,4 @@
-/* Global Styles /\/\*/
+/* Global Styles */
 body {
     font-family: Arial, sans-serif;
     background-color: #212121;
@@ -19,20 +19,20 @@ body {
 h1 {
     text-align: center;
     margin-bottom: 20px;
-    color:#fff;
+    color: #fff;
 }
 
 /* Button Container Styling */
-.action-buttons, .sort-buttons {
+.action-buttons, .sort-buttons, .toggle-buttons {
     display: flex;
-    justify-content: space-around; /* Align buttons with equal space */
+    justify-content: space-around;
     margin-bottom: 20px;
-    flex-wrap: wrap; /* Allow buttons to wrap to the next line if the screen is small */
+    flex-wrap: wrap;
 }
 
 /* General Button Styling */
 button {
-    padding: 12px 20px; /* Adjust the padding for consistent size */
+    padding: 12px 20px;
     font-size: 16px;
     border-radius: 10px;
     border: none;
@@ -46,12 +46,16 @@ button:hover {
     background-color: #0056b3;
 }
 
-/* Specific Buttons (Optional for fine-tuning) */
+/* Specific Buttons */
 #addMangaBtn, #downloadBtn, #uploadBtn {
-    width: 30%; /* Make buttons the same width */
+    width: 30%;
 }
 
 #sortAddedBtn, #sortUpdatedBtn, #sortPriorityBtn {
+    width: 30%;
+}
+
+#toggleModeBtn {
     width: 30%;
 }
 
@@ -61,14 +65,36 @@ button:hover {
     padding: 0;
 }
 
+/* Manga Item */
 .manga-item {
     background-color: #171717;
     margin-bottom: 10px;
     padding: 15px;
-    border-left: 5px solid #ccc;
+    border-left: 5px solid;
     position: relative;
     border-radius: 20px;
-    color:#fff;
+    color: #fff;
+}
+
+/* Priority Colors */
+.priority-1 {
+    border-left-color: gray !important;
+}
+
+.priority-2 {
+    border-left-color: blue !important;
+}
+
+.priority-3 {
+    border-left-color: green !important;
+}
+
+.priority-4 {
+    border-left-color: orange !important;
+}
+
+.priority-5 {
+    border-left-color: red !important;
 }
 
 .manga-item .item-content {
@@ -95,27 +121,7 @@ button:hover {
     margin-left: 5px;
 }
 
-/* Priority Colors */
-.priority-1 {
-    border-left-color: gray;
-}
-
-.priority-2 {
-    border-left-color: blue;
-}
-
-.priority-3 {
-    border-left-color: green;
-}
-
-.priority-4 {
-    border-left-color: orange;
-}
-
-.priority-5 {
-    border-left-color: red;
-}
-
+/* Modal Styles */
 .modal {
     display: none;
     position: fixed;
@@ -136,23 +142,33 @@ button:hover {
     max-width: 400px;
     position: relative;
     border-radius: 25px;
+    display: flex;
+    flex-direction: column;
 }
 
+/* Close Button Styling */
 .close-button {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
     font-weight: bold;
+    color: #aaa;
     cursor: pointer;
+    background: none;
+    border: none;
 }
 
 .close-button:hover,
 .close-button:focus {
-    color: black;
+    color: #000;
 }
 
+/* Modal Input Fields */
 #modalTitle {
     text-align: center;
+    font-size: 22px;
+    margin-bottom: 15px;
 }
 
 #mangaForm {
@@ -162,27 +178,152 @@ button:hover {
 
 #mangaForm label {
     margin-top: 10px;
+    text-align: left;
 }
 
-#mangaForm input {
+#mangaForm input[type="text"], #mangaForm input[type="number"] {
+    width: 100%;
     padding: 8px;
     margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
 }
 
+/* Thumbnail inside Modal */
+#uploadedImage {
+    display: block;
+    max-width: 100px;
+    height: auto;
+    margin: 10px 0;
+    border-radius: 10px;
+}
+
+/* Upload Button */
+#uploadThumbnailBtn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 8px;
+    background-color: #676767;
+    color: white;
+    cursor: pointer;
+}
+
+#uploadThumbnailBtn:hover {
+    background-color: #0056b3;
+}
+
+/* Save Button */
 #saveMangaBtn {
     margin-top: 20px;
-    padding: 10px;
+    padding: 12px;
     font-size: 16px;
+    border-radius: 10px;
+    background-color: #4CAF50;
+    color: white;
 }
 
-.edit-btn {
-    margin-right: 7px;
+#saveMangaBtn:hover {
+    background-color: #45a049;
 }
 
-.edit-btn:hover {
-    background-color: #218838;
+/* Compact Mode */
+.compact-mode .modal-content {
+    display: block;
 }
 
-.delete-btn:hover {
-    background-color: #c82333;
+.compact-mode #uploadedImage {
+    max-width: 100px;
+    margin-bottom: 10px;
+}
+
+/* ----------- THUMBNAIL MODE ONLY CHANGES BELOW THIS LINE ----------- */
+
+/* Thumbnail Mode Manga Item */
+.thumbnail-mode .manga-item {
+    display: flex;
+    background-color: #171717;
+    margin-bottom: 15px;
+    padding: 20px;
+    border-left: 5px solid;
+    border-radius: 20px;
+    color: #fff;
+    min-height: 180px;
+    gap: 20px;
+}
+
+/* Thumbnail */
+.thumbnail-mode .manga-item img {
+    width: 120px;
+    height: 180px;
+    border-radius: 10px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+/* Content Container */
+.thumbnail-mode .item-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    position: relative;
+    min-height: 180px;
+    padding-right: 100px;
+}
+
+/* Manga Info Section */
+.thumbnail-mode .manga-info {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Title */
+.thumbnail-mode .manga-info h3 {
+    font-size: 20px;
+    margin: 0 0 auto 0;
+    word-break: break-word;
+}
+
+/* Action Buttons */
+.thumbnail-mode .item-actions {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    gap: 8px;
+}
+
+.thumbnail-mode .item-actions button {
+    padding: 6px 12px;
+    font-size: 14px;
+}
+
+/* Details Section */
+.thumbnail-mode .manga-details {
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 14px;
+    color: #999;
+}
+
+.thumbnail-mode .manga-details span {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+/* Priority Colors */
+.thumbnail-mode .priority-1 { border-left-color: gray; }
+.thumbnail-mode .priority-2 { border-left-color: blue; }
+.thumbnail-mode .priority-3 { border-left-color: green; }
+.thumbnail-mode .priority-4 { border-left-color: orange; }
+.thumbnail-mode .priority-5 { border-left-color: red; }
+
+/* Priority text */
+.thumbnail-mode .priority-badge {
+    margin: 0 0 8px 0;
+    font-size: 12px;
+    font-weight: bold;
 }

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Zappu's Manga Tracker</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Link to CSS file -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -26,8 +25,13 @@
             <button id="sortPriorityBtn">Sort by Priority</button>
         </div>
 
+        <!-- Toggle Mode Button -->
+        <div class="toggle-buttons">
+            <button id="toggleModeBtn">Thumbnail Mode</button>
+        </div>
+
         <!-- Manga List -->
-        <ul id="mangaList"></ul>
+        <ul id="mangaList" class="compact-mode"></ul>
     </div>
 
     <!-- Add/Edit Manga Modal -->
@@ -45,12 +49,18 @@
                 <label for="priorityInput">Priority (1-5):</label>
                 <input type="number" id="priorityInput" min="1" max="5" value="1">
 
+                <!-- Thumbnail Upload -->
+                <label for="thumbnailInput">Upload Thumbnail:</label>
+                <input type="file" id="thumbnailInput" accept="image/*">
+                <button type="button" id="uploadThumbnailBtn">Upload Thumbnail</button>
+                <p id="uploadStatus"></p>
+                <img id="uploadedImage" style="display: none; max-width: 100px; margin-top: 10px;"/>
+
                 <button type="submit" id="saveMangaBtn">Save</button>
             </form>
         </div>
     </div>
 
-    <!-- Link to JavaScript file -->
     <script src="script.js"></script>
 </body>
 </html>
