@@ -2,6 +2,11 @@ let mangaList = [];
 let isThumbnailMode = false;
 let editMode = false;
 let editId = null;
+let sortState = {
+    added: null,
+    updated: null,
+    priority: null
+};
 
 // Elements
 const addMangaBtn = document.getElementById('addMangaBtn');
@@ -14,6 +19,10 @@ const downloadBtn = document.getElementById('downloadBtn');
 const uploadBtn = document.getElementById('uploadBtn');
 const uploadInput = document.getElementById('uploadInput');
 const toggleModeBtn = document.getElementById('toggleModeBtn');
+
+const sortAddedBtn = document.getElementById('sortAddedBtn');
+const sortUpdatedBtn = document.getElementById('sortUpdatedBtn');
+const sortPriorityBtn = document.getElementById('sortPriorityBtn');
 
 // Form Inputs
 const titleInput = document.getElementById('titleInput');
@@ -45,6 +54,11 @@ downloadBtn.addEventListener('click', downloadList);
 uploadBtn.addEventListener('click', () => uploadInput.click());
 uploadInput.addEventListener('change', uploadList);
 toggleModeBtn.addEventListener('click', toggleMode);
+
+// Sort Buttons Event Listeners
+sortAddedBtn.addEventListener('click', () => sortMangaList('added'));
+sortUpdatedBtn.addEventListener('click', () => sortMangaList('updated'));
+sortPriorityBtn.addEventListener('click', () => sortMangaList('priority'));
 
 // Thumbnail upload button
 document.getElementById('uploadThumbnailBtn').addEventListener('click', async () => {
@@ -126,7 +140,6 @@ function openEditModal(manga) {
 
     mangaModal.style.display = 'block';
 }
-
 
 function closeModal() {
     mangaModal.style.display = 'none';
@@ -343,4 +356,48 @@ function toggleMode() {
         toggleModeBtn.textContent = 'Thumbnail Mode';
     }
     renderMangaList();
+}
+
+function sortMangaList(type) {
+    switch (type) {
+        case 'added':
+            toggleSort('added');
+            mangaList.sort((a, b) => {
+                const dateA = new Date(a.timestamp);
+                const dateB = new Date(b.timestamp);
+                return sortState.added === 'asc' ? dateB - dateA : dateA - dateB;
+            });
+            break;
+        case 'updated':
+            toggleSort('updated');
+            mangaList.sort((a, b) => {
+                const dateA = new Date(a.lastUpdated);
+                const dateB = new Date(b.lastUpdated);
+                return sortState.updated === 'asc' ? dateB - dateA : dateA - dateB;
+            });
+            break;
+        case 'priority':
+            toggleSort('priority');
+            mangaList.sort((a, b) => {
+                return sortState.priority === 'asc' ? b.priority - a.priority : a.priority - b.priority;
+            });
+            break;
+        default:
+            break;
+    }
+    renderMangaList();
+}
+
+function toggleSort(key) {
+    for (let k in sortState) {
+        if (k !== key) sortState[k] = null;
+    }
+
+    if (sortState[key] === null) {
+        sortState[key] = 'asc';
+    } else if (sortState[key] === 'asc') {
+        sortState[key] = 'desc';
+    } else {
+        sortState[key] = null;
+    }
 }
