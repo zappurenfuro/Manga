@@ -5,30 +5,31 @@
     <title>Zappu's Manga Tracker</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <h1>Manga Tracker</h1>
+        <div class="header-container">
+            <h1>Manga Tracker</h1>
+            <h2>Viewing <span class="bold">Your</span> Manga List</h2>
+        </div>
+        
+        
 
         <!-- Action Buttons -->
         <div class="action-buttons">
-            <button id="addMangaBtn">Add Manga</button>
-            <button id="downloadBtn">Download List</button>
+            <button id="compactModeBtn"><i class="fas fa-compress"></i> Compact Mode</button>
+            <button id="thumbnailModeBtn"><i class="fas fa-th"></i> Thumbnail Mode</button>
+            <button id="downloadBtn"><i class="fas fa-download"></i> Download List</button>
             <input type="file" id="uploadInput" accept="application/json" style="display: none;">
-            <button id="uploadBtn">Upload List</button>
+            <button id="uploadBtn"><i class="fas fa-upload"></i> Upload List</button>
         </div>
 
         <!-- Sort Buttons -->
         <div class="sort-buttons">
-            <button id="sortAddedBtn">Sort by Added</button>
-            <button id="sortUpdatedBtn">Sort by Updated</button>
-            <button id="sortPriorityBtn">Sort by Priority</button>
+            <button id="addMangaBtn"><i class="fas fa-plus"></i> Add Manga</button>
         </div>
 
-        <!-- Toggle Mode Button -->
-        <div class="toggle-buttons">
-            <button id="toggleModeBtn">Thumbnail Mode</button>
-        </div>
 
         <!-- Manga List -->
         <ul id="mangaList" class="compact-mode"></ul>
@@ -61,6 +62,46 @@
         </div>
     </div>
 
+    <div class="sidebar">
+        <!-- Add Manga -->
+        <button class="sidebar-button" id="sidebarAddMangaBtn" data-tooltip="Add Manga">
+            <i class="fas fa-plus"></i>
+        </button>
+    
+        <div class="sidebar-divider"></div>
+    
+        <!-- View Options -->
+        <button class="sidebar-button" id="sidebarCompactModeBtn" data-tooltip="Compact Mode">
+            <i class="fas fa-compress"></i>
+        </button>
+        <button class="sidebar-button" id="sidebarThumbnailModeBtn" data-tooltip="Thumbnail Mode">
+            <i class="fas fa-th"></i>
+        </button>
+    
+        <div class="sidebar-divider"></div>
+    
+        <!-- Sort Options -->
+        <button class="sidebar-button" id="sidebarSortAddedBtn" data-tooltip="Sort by Added">
+            <i class="fas fa-sort"></i>
+        </button>
+        <button class="sidebar-button" id="sidebarSortUpdatedBtn" data-tooltip="Sort by Updated">
+            <i class="fas fa-sort-amount-up"></i>
+        </button>
+        <button class="sidebar-button" id="sidebarSortPriorityBtn" data-tooltip="Sort by Priority">
+            <i class="fas fa-tasks"></i>
+        </button>
+    
+        <div class="sidebar-divider"></div>
+    
+        <!-- Data Management -->
+        <button class="sidebar-button" id="sidebarDownloadBtn" data-tooltip="Download List">
+            <i class="fas fa-download"></i>
+        </button>
+        <button class="sidebar-button" id="sidebarUploadBtn" data-tooltip="Upload List">
+            <i class="fas fa-upload"></i>
+        </button>
+    </div>    
+    
     <script src="script.js"></script>
 </body>
 </html>

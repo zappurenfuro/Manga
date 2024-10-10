@@ -4,32 +4,131 @@ body {
     background-color: #212121;
     margin: 0;
     padding: 0;
+    display: flex;
+}
+/* Slim Sidebar Styles */
+.sidebar {
+    width: 60px;
+    height: 100vh;
+    background-color: #171717;
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.sidebar-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+    color: #cc0000;
+    margin: 5px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.sidebar-button:hover {
+    background-color: #333;
+    color: #ff0000;
+}
+
+.sidebar-button i {
+    font-size: 20px;
+}
+
+.sidebar-divider {
+    width: 30px;
+    height: 1px;
+    background-color: #333;
+    margin: 10px 0;
+}
+/* Main Content */
+.main-content {
+    margin-left: 60px;
+    padding: 20px;
+    width: calc(100% - 60px);
+}
+
+.main-header {
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+/* Tooltip styles */
+.sidebar-button {
+    position: relative;
+}
+
+.sidebar-button::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #333;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    margin-left: 10px;
+}
+
+.sidebar-button:hover::after {
+    opacity: 1;
 }
 
 /* Container */
 .container {
     width: 90%;
-    max-width: 800px;
+    max-width: 1200px;
     margin: auto;
     overflow: hidden;
     padding: 20px;
 }
 
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+.header-container .bold {
+    font-weight: 900;
+    color:#cc0000;
+}
+
 /* Header */
 h1 {
-    text-align: center;
-    margin-bottom: 20px;
     color: #fff;
 }
 
+.header-container h2 {
+    color: #fff;
+}
 /* Button Container Styling */
-.action-buttons, .sort-buttons, .toggle-buttons {
+.action-buttons, .toggle-buttons {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     margin-bottom: 20px;
     flex-wrap: wrap;
 }
-
+.sort-buttons {
+    display: none;
+}
 /* General Button Styling */
 button {
     padding: 12px 20px;
@@ -46,17 +145,20 @@ button:hover {
     background-color: #0056b3;
 }
 
-/* Specific Buttons */
-#addMangaBtn, #downloadBtn, #uploadBtn {
-    width: 30%;
+#addMangaBtn, #downloadBtn, #uploadBtn, #sortAddedBtn, #sortUpdatedBtn, #sortPriorityBtn {
+    display: none;
 }
 
-#sortAddedBtn, #sortUpdatedBtn, #sortPriorityBtn {
-    width: 30%;
+#compactModeBtn, #thumbnailModeBtn {
+    width: 48.8%;
+    margin-bottom: 10px;
+    color: #cc0000;
+    background-color: rgba(0, 0, 0, 0.2);
 }
 
-#toggleModeBtn {
-    width: 30%;
+#compactModeBtn:hover, #thumbnailModeBtn:hover {
+    background-color: #333;
+    color: #ff0000;
 }
 
 /* Manga List */
@@ -238,6 +340,30 @@ button:hover {
     margin-bottom: 10px;
 }
 
+.compact-mode .delete-btn {
+    padding: 6px 12px;
+    font-size: 14px;
+    margin-top: 7px;
+    margin-right: 8px;
+    background: none;
+    color:#cc0000;
+}
+
+.compact-mode .edit-btn {
+    padding: 6px 12px;
+    font-size: 14px;
+    margin-top: 7px;
+    margin-right: 8px;
+    background: none;
+    color: white;
+}
+
+
+
+.delete-btn i {
+    margin-right: 5px;
+}
+
 /* ----------- THUMBNAIL MODE ONLY CHANGES BELOW THIS LINE ----------- */
 
 /* Thumbnail Mode Manga Item */
@@ -265,7 +391,7 @@ button:hover {
 /* Content Container */
 .thumbnail-mode .item-content {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     flex-grow: 1;
     position: relative;
     min-height: 180px;
@@ -295,9 +421,18 @@ button:hover {
     gap: 8px;
 }
 
-.thumbnail-mode .item-actions button {
+.thumbnail-mode .delete-btn {
     padding: 6px 12px;
     font-size: 14px;
+    background: none;
+    color: #cc0000;
+}
+
+.thumbnail-mode .edit-btn {
+    padding: 6px 12px;
+    font-size: 14px;
+    background: none;
+    color: white;
 }
 
 /* Details Section */

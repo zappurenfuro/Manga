@@ -1,5 +1,5 @@
 let mangaList = [];
-let isThumbnailMode = false;
+let isThumbnailMode = true;
 let editMode = false;
 let editId = null;
 let sortState = {
@@ -18,7 +18,10 @@ const modalTitleEl = document.getElementById('modalTitle');
 const downloadBtn = document.getElementById('downloadBtn');
 const uploadBtn = document.getElementById('uploadBtn');
 const uploadInput = document.getElementById('uploadInput');
-const toggleModeBtn = document.getElementById('toggleModeBtn');
+const compactModeBtn = document.getElementById('compactModeBtn');
+const thumbnailModeBtn = document.getElementById('thumbnailModeBtn');
+const uploadThumbnailBtn = document.getElementById('uploadThumbnailBtn');
+
 
 const sortAddedBtn = document.getElementById('sortAddedBtn');
 const sortUpdatedBtn = document.getElementById('sortUpdatedBtn');
@@ -34,6 +37,16 @@ const thumbnailInput = document.getElementById('thumbnailInput');
 const uploadStatus = document.getElementById('uploadStatus');
 const uploadedImage = document.getElementById('uploadedImage');
 
+// Sidebar Buttons Event Listeners
+document.getElementById('sidebarAddMangaBtn').addEventListener('click', openAddModal);
+document.getElementById('sidebarCompactModeBtn').addEventListener('click', () => setMode(false));
+document.getElementById('sidebarThumbnailModeBtn').addEventListener('click', () => setMode(true));
+document.getElementById('sidebarSortAddedBtn').addEventListener('click', () => sortMangaList('added'));
+document.getElementById('sidebarSortUpdatedBtn').addEventListener('click', () => sortMangaList('updated'));
+document.getElementById('sidebarSortPriorityBtn').addEventListener('click', () => sortMangaList('priority'));
+document.getElementById('sidebarDownloadBtn').addEventListener('click', downloadList);
+document.getElementById('sidebarUploadBtn').addEventListener('click', () => uploadInput.click());
+
 // Thumbnail URL state
 let uploadedThumbnailUrl = '';
 
@@ -44,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         mangaList = JSON.parse(storedMangaList);
         renderMangaList();
     }
+    setMode(true);
 });
 
 // Event Listeners
@@ -53,18 +67,25 @@ mangaForm.addEventListener('submit', saveManga);
 downloadBtn.addEventListener('click', downloadList);
 uploadBtn.addEventListener('click', () => uploadInput.click());
 uploadInput.addEventListener('change', uploadList);
-toggleModeBtn.addEventListener('click', toggleMode);
+compactModeBtn.addEventListener('click', () => setMode(false));
+thumbnailModeBtn.addEventListener('click', () => setMode(true));
+uploadThumbnailBtn.addEventListener('click', handleThumbnailUpload);
 
 // Sort Buttons Event Listeners
 sortAddedBtn.addEventListener('click', () => sortMangaList('added'));
 sortUpdatedBtn.addEventListener('click', () => sortMangaList('updated'));
 sortPriorityBtn.addEventListener('click', () => sortMangaList('priority'));
 
-// Thumbnail upload button
-document.getElementById('uploadThumbnailBtn').addEventListener('click', async () => {
+// Thumbnail upload button function
+async function handleThumbnailUpload() {
     const file = thumbnailInput.files[0];
     if (!file) {
         alert('Please select an image first');
+        return;
+    }
+
+    if (!file.type.startsWith('image/')) {
+        alert('Please select a valid image file');
         return;
     }
 
@@ -74,10 +95,17 @@ document.getElementById('uploadThumbnailBtn').addEventListener('click', async ()
 
     try {
         uploadStatus.textContent = 'Uploading...';
+        uploadThumbnailBtn.disabled = true;
+
         const response = await fetch('https://api.cloudinary.com/v1_1/dzvzxvotk/image/upload', {
             method: 'POST',
-            body: formData,
+            body: formData
         });
+
+        if (!response.ok) {
+            throw new Error('Upload failed');
+        }
+
         const data = await response.json();
 
         if (data.secure_url) {
@@ -86,15 +114,30 @@ document.getElementById('uploadThumbnailBtn').addEventListener('click', async ()
             uploadedImage.style.display = 'block';
             uploadedThumbnailUrl = data.secure_url;
         } else {
-            uploadStatus.textContent = 'Upload failed. Please try again.';
+            throw new Error('No URL in response');
         }
     } catch (error) {
         console.error('Error uploading to Cloudinary:', error);
-        uploadStatus.textContent = 'An error occurred during the upload. Please try again.';
+        uploadStatus.textContent = 'Upload failed. Please try again.';
+        uploadedImage.style.display = 'none';
+        uploadedThumbnailUrl = '';
+    } finally {
+        uploadThumbnailBtn.disabled = false;
     }
-});
+}
 
 // Functions
+function setMode(thumbnail) {
+    isThumbnailMode = thumbnail;
+    if (isThumbnailMode) {
+        mangaListEl.classList.remove('compact-mode');
+        mangaListEl.classList.add('thumbnail-mode');
+    } else {
+        mangaListEl.classList.remove('thumbnail-mode');
+        mangaListEl.classList.add('compact-mode');
+    }
+    renderMangaList();
+}
 
 function openAddModal() {
     editMode = false;
@@ -105,13 +148,6 @@ function openAddModal() {
     priorityInput.value = 1;
     uploadedThumbnailUrl = '';
     uploadedImage.style.display = 'none';
-
-    // Apply thumbnail-mode styling if in Thumbnail Mode
-    if (isThumbnailMode) {
-        mangaModal.classList.add('thumbnail-mode-modal');
-    } else {
-        mangaModal.classList.remove('thumbnail-mode-modal');
-    }
 
     mangaModal.style.display = 'block';
 }
@@ -129,13 +165,6 @@ function openEditModal(manga) {
         uploadedImage.style.display = 'block';
     } else {
         uploadedImage.style.display = 'none';
-    }
-
-    // Apply thumbnail-mode styling if in Thumbnail Mode
-    if (isThumbnailMode) {
-        mangaModal.classList.add('thumbnail-mode-modal');
-    } else {
-        mangaModal.classList.remove('thumbnail-mode-modal');
     }
 
     mangaModal.style.display = 'block';
@@ -237,10 +266,10 @@ function renderMangaList() {
             const detailsEl = document.createElement('div');
             detailsEl.className = 'manga-details';
             detailsEl.innerHTML = `
-                <span>Chapters: ${manga.chapters}</span>
-                <span>Added: ${manga.timestamp}</span>
-                <span>Updated: ${manga.lastUpdated}</span>
-            `;
+                        <span>Chapters: ${manga.chapters}</span>
+                        <span>Added: ${manga.timestamp}</span>
+                        <span>Updated: ${manga.lastUpdated}</span>
+                    `;
             mangaInfo.appendChild(detailsEl);
 
             // Action Buttons
@@ -248,11 +277,13 @@ function renderMangaList() {
             itemActions.className = 'item-actions';
 
             const editBtn = document.createElement('button');
-            editBtn.textContent = 'Edit';
+            editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+            editBtn.classList.add('edit-btn');
             editBtn.addEventListener('click', () => openEditModal(manga));
 
             const deleteBtn = document.createElement('button');
-            deleteBtn.textContent = 'Delete';
+            deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+            deleteBtn.classList.add('delete-btn');
             deleteBtn.addEventListener('click', () => deleteManga(manga.id));
 
             itemActions.appendChild(editBtn);
@@ -282,12 +313,12 @@ function renderMangaList() {
             itemActions.className = 'item-actions';
 
             const editBtn = document.createElement('button');
-            editBtn.textContent = 'Edit';
+            editBtn.innerHTML = '<i class="fas fa-edit"></i>';
             editBtn.classList.add('edit-btn');
             editBtn.addEventListener('click', () => openEditModal(manga));
 
             const deleteBtn = document.createElement('button');
-            deleteBtn.textContent = 'Delete';
+            deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
             deleteBtn.classList.add('delete-btn');
             deleteBtn.addEventListener('click', () => deleteManga(manga.id));
 
@@ -326,7 +357,7 @@ function uploadList(event) {
     if (!file) return;
 
     const reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = function (e) {
         const content = e.target.result;
         try {
             const importedList = JSON.parse(content);
@@ -342,20 +373,6 @@ function uploadList(event) {
         }
     };
     reader.readAsText(file);
-}
-
-function toggleMode() {
-    isThumbnailMode = !isThumbnailMode;
-    if (isThumbnailMode) {
-        mangaListEl.classList.remove('compact-mode');
-        mangaListEl.classList.add('thumbnail-mode');
-        toggleModeBtn.textContent = 'Compact Mode';
-    } else {
-        mangaListEl.classList.remove('thumbnail-mode');
-        mangaListEl.classList.add('compact-mode');
-        toggleModeBtn.textContent = 'Thumbnail Mode';
-    }
-    renderMangaList();
 }
 
 function sortMangaList(type) {
