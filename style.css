@@ -94,7 +94,7 @@ body {
 /* Container */
 .container {
     width: 90%;
-    max-width: 1200px;
+    max-width: 900px;
     margin: auto;
     overflow: hidden;
     padding: 20px;
@@ -465,4 +465,65 @@ button:hover {
     margin: 0 0 8px 0;
     font-size: 12px;
     font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+        padding: 10px;
+        padding-left: 50px;
+    }
+    .thumbnail-mode .manga-info h3 {
+        font-size: 14px;
+    }
+    .thumbnail-mode .priority-badge {
+        font-size: 9px;
+    }
+    .thumbnail-mode .manga-details {
+        font-size: 10px;
+    }
+    .thumbnail-mode .delete-btn {
+        padding: 0px;
+    }
+    
+    .thumbnail-mode .edit-btn {
+        padding: 0px;
+    }
+    .thumbnail-mode .item-actions {
+        gap: 5px;
+    }
+    .thumbnail-mode .item-content {
+        padding-right: 0px;
+    }
+    .sidebar {
+        width: 40px;
+    }
+    .modal {
+        width: 90%;
+        padding-left: 40px;
+    }
+    .compact-mode .delete-btn {
+        padding: 0px;
+    }
+    
+    .compact-mode .edit-btn {
+        padding: 0px;
+    }
+    .compact-mode .manga-info h3 {
+        font-size: 14px;
+    }
+    .compact-mode .item-content {
+        padding-right: 50px;
+    }
+    .compact-mode .manga-info p {
+        font-size: 11px;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .container {
+        width: 100%;
+        padding: 10px;
+        padding-left: 80px;
+    }
 }
